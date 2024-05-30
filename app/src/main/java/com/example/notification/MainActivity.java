@@ -1,7 +1,10 @@
 package com.example.notification;
 
 import android.Manifest;
+import android.app.Notification;
 import android.app.NotificationChannel;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -95,6 +98,13 @@ public class MainActivity extends AppCompatActivity {
                 android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pending = PendingIntent.getActivity(
+                this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        builder.setContentIntent(pending);
+        Notification notification = builder.build();
+        builder.setAutoCancel(true);
         notificationManager.notify(NOTIFICATION_ID, builder.build());
+
     }
 }
